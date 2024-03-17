@@ -1,3 +1,4 @@
+import { FfmpegService } from './../../services/ffmpeg.service';
 import firebase from 'firebase/compat/app';
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -10,6 +11,7 @@ import { last, switchMap } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { ClipService } from 'src/app/services/clip.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-upload',
   templateUrl: './upload.component.html',
@@ -22,6 +24,9 @@ export class UploadComponent implements OnDestroy {
   title = new FormControl('', {
     validators: [Validators.required, Validators.minLength(3)],
     nonNullable: true,
+  });
+  uploadForm = new FormGroup({
+    title: this.title,
   });
   showAlert = false;
   alertColor = 'blue';
@@ -36,18 +41,18 @@ export class UploadComponent implements OnDestroy {
     private storage: AngularFireStorage,
     private auth: AngularFireAuth,
     private clipService: ClipService,
-    private router: Router
+    private router: Router,
+    public ffmpegService: FfmpegService
   ) {
     auth.user.subscribe((user) => (this.user = user));
+    this.ffmpegService.init();
   }
 
   // 切換頁面時，取消上傳，釋放記憶體
   ngOnDestroy(): void {
     this.task?.cancel();
   }
-  uploadForm = new FormGroup({
-    title: this.title,
-  });
+
   storeFile($event: Event) {
     this.isDragOver = false;
     this.file = ($event as DragEvent).dataTransfer
