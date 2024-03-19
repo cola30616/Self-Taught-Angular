@@ -1,13 +1,12 @@
 <!-- Main Content -->
 <section class="container mx-auto my-8 bg-secondary p-6">
   <div class="rounded relative flex flex-col">
-    <div class="font-bold mb-6">Upload Video</div>
+    <div class="font-bold mb-6">上傳影片</div>
     <ng-container>
       <span
         *ngIf="!ffmpegService.isReady; else uploadEditorCtr"
         class="material-symbols-outlined text-center text-6xl p-8 animate-spin"
       >
-        sync
       </span>
     </ng-container>
     <ng-template #uploadEditorCtr>
@@ -26,7 +25,7 @@
           }"
           class="w-full px-10 py-40 rounded text-center cursor-pointer border border-dashed border-gray-400 transition duration-500 hover:text-white hover:bg-indigo-400 hover:border-indigo-400 hover:border-solid text-xl"
         >
-          <h5>拖曳你的檔案到此處 (mp4 only!)</h5>
+          <h5>拖曳你的檔案到此處 (mp4 only!) 上限10MB</h5>
           <span
             *ngif="ffmpegService.isRunning"
             class="material-icons text-center text-6xl p-8 animate-spin"
@@ -44,7 +43,7 @@
         <!-- Form -->
         <form [formGroup]="uploadForm" (ngSubmit)="uploadFile()">
           <!-- Screenshots -->
-          <h2 class="mb-4 text-xl">Select a Thumbnail</h2>
+          <h2 class="mb-4 text-xl">選擇截圖</h2>
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div
               *ngFor="let screenshot of screenshots"
@@ -61,7 +60,7 @@
 
           <!-- Title -->
           <div class="mt-4">
-            <label class="block text-xl mb-4">Title</label>
+            <label class="block text-xl mb-4">標題</label>
             <app-input [control]="title" placeholder="輸入標題"></app-input>
           </div>
 
